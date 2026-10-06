@@ -14,7 +14,7 @@ function Projects() {
       title: "Finance Control",
       image: financeControl,
       technologies: ["React", "Node.js", "MySQL"],
-      // github:"https://github.com/matheusmz12/thoughts-react"
+      github: "https://github.com/matheusmz12/finance-control",
       //   description:"Sistema de controle financeiro com autenticação, transações e dashboard"
     },
 
