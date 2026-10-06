@@ -1,0 +1,263 @@
+.projects-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-l);
+}
+
+.projects-list {
+    list-style: none;
+    display: flex;
+    gap: var(--space-l);
+    margin-top: var(--space-xl);
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    padding-bottom: var(--space-2xs);
+}
+
+.projects-list::-webkit-scrollbar {
+    display: none;
+}
+
+.img-port {
+    --gap: var(--space-l);
+    flex: 0 0 calc((100% - 2 * var(--gap)) / 3);
+    height: 460px;
+    background-size: cover;
+    background-position: 50% 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-l);
+    position: relative;
+    overflow: hidden;
+    scroll-snap-align: start;
+    /* Rolagem lenta do print ao passar o mouse (efeito intencional) */
+    transition: background-position 6s linear;
+}
+
+.img-port:hover {
+    background-position: 50% 100%;
+}
+
+/* Reflexo de luz que acompanha a inclinação (posição vem do GSAP) */
+.img-port::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(circle at var(--gx, 50%) var(--gy, 0%), rgba(255, 255, 255, 0.14), transparent 55%);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--dur) var(--ease-out);
+}
+
+.img-port:hover::after {
+    opacity: 1;
+}
+
+/* Legenda com gradiente na base — visível sempre em telas de toque */
+.overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+    gap: var(--space-s);
+    padding: var(--space-l);
+    color: var(--text);
+    background: linear-gradient(to top, rgba(5, 11, 25, 0.95) 0%, rgba(5, 11, 25, 0.6) 40%, transparent 70%);
+}
+
+.overlay h3 {
+    font-size: var(--step-2);
+    letter-spacing: -0.01em;
+}
+
+.technologies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+}
+
+.technologies span {
+    padding: 4px 10px;
+    border-radius: var(--radius-full);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(5, 11, 25, 0.5);
+    font-size: 12px;
+    color: var(--text-soft);
+}
+
+.overlay a,
+.project-soon {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 36px;
+    padding: 0 var(--space-s);
+    border-radius: var(--radius-s);
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.overlay a {
+    background: var(--brand);
+    color: var(--text);
+    transition: background var(--dur) var(--ease-out);
+}
+
+.overlay a:hover {
+    background: var(--brand-hover);
+}
+
+.project-soon {
+    border: 1px dashed var(--border-strong);
+    color: var(--text-muted);
+}
+
+/* Em dispositivos com mouse, os detalhes aparecem no hover */
+@media (hover: hover) {
+    .overlay > * {
+        opacity: 0;
+        transform: translateY(8px);
+        transition:
+            opacity var(--dur) var(--ease-out),
+            transform var(--dur) var(--ease-out);
+    }
+
+    .overlay h3 {
+        opacity: 1;
+        transform: none;
+    }
+
+    .img-port:hover .overlay > *,
+    .img-port:focus-within .overlay > * {
+        opacity: 1;
+        transform: none;
+    }
+
+    .img-port:hover .overlay > :nth-child(2) { transition-delay: 40ms; }
+    .img-port:hover .overlay > :nth-child(3) { transition-delay: 80ms; }
+}
+
+.carousel {
+    display: flex;
+    gap: var(--space-xs);
+}
+
+.carousel-btn {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--surface-1);
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    transition:
+        background var(--dur) var(--ease-out),
+        color var(--dur) var(--ease-out),
+        border-color var(--dur) var(--ease-out);
+}
+
+.carousel-btn:hover {
+    background: var(--brand);
+    border-color: var(--brand);
+    color: var(--text);
+}
+
+.carousel-btn:focus-visible {
+    border-radius: 50%;
+}
+
+.project-number {
+    position: absolute;
+    top: var(--space-m);
+    left: var(--space-l);
+    z-index: 1;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--text);
+    padding: 4px 8px;
+    border-radius: var(--radius-full);
+    background: rgba(5, 11, 25, 0.6);
+    backdrop-filter: blur(6px);
+}
+
+.projects-viewport {
+    /* margem negativa deixa o foco/hover respirar sem cortar */
+    margin: var(--space-xl) calc(var(--space-2xs) * -1) 0;
+}
+
+.projects-list {
+    margin-top: 0;
+    padding: var(--space-2xs);
+    scroll-padding-inline: var(--space-2xs);
+}
+
+.projects-list:focus-visible {
+    border-radius: var(--radius-l);
+}
+
+.carousel-btn:disabled {
+    opacity: 0.35;
+    cursor: default;
+    pointer-events: none;
+}
+
+.projects-progress {
+    height: 2px;
+    margin-top: var(--space-l);
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.projects-progress span {
+    display: block;
+    height: 100%;
+    background: var(--brand);
+    transform-origin: left;
+    transform: scaleX(0.05);
+    transition: transform 120ms linear;
+}
+
+@media (min-width: 769px) {
+    .img-port {
+        height: clamp(360px, 60svh, 480px);
+    }
+}
+
+@media (max-width: 1024px) {
+    .img-port {
+        flex-basis: calc((100% - var(--gap)) / 2);
+    }
+}
+
+@media (max-width: 768px) {
+    .projects-header {
+        justify-content: center;
+        text-align: center;
+    }
+
+    .carousel {
+        display: none;
+    }
+
+    .projects-list {
+        gap: var(--space-s);
+    }
+
+    /* Mostra um pedaço do próximo card para indicar que dá pra arrastar */
+    .img-port {
+        flex: 0 0 85%;
+        height: 420px;
+    }
+}

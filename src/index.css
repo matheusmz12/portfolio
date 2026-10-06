@@ -1,0 +1,299 @@
+/* ============================================================
+   Design tokens — ver docs/design-tokens.md
+   ============================================================ */
+:root {
+  /* Superfícies (do mais escuro ao mais claro) */
+  --bg: #050b19;
+  --surface-1: #0a111f;
+  --surface-2: #0d1730;
+  --border-subtle: #151b24;
+  --border: #1d2a3d;
+  --border-strong: #2a3a52;
+
+  /* Texto */
+  --text: #ffffff;
+  --text-soft: #d5d9e0;
+  --text-muted: #8d96a5;
+
+  /* Marca */
+  --brand: #2864ff;
+  --brand-hover: #4a7dff;
+  --brand-glow: rgba(40, 100, 255, 0.35);
+
+  /* Espaçamento fluido (Utopia, 360px → 1440px) */
+  --space-2xs: clamp(0.25rem, 0.23rem + 0.09vw, 0.31rem);
+  --space-xs: clamp(0.5rem, 0.47rem + 0.19vw, 0.63rem);
+  --space-s: clamp(0.75rem, 0.7rem + 0.28vw, 0.94rem);
+  --space-m: clamp(1rem, 0.93rem + 0.37vw, 1.25rem);
+  --space-l: clamp(1.5rem, 1.39rem + 0.56vw, 1.88rem);
+  --space-xl: clamp(2rem, 1.85rem + 0.74vw, 2.5rem);
+  --space-2xl: clamp(3rem, 2.5rem + 2.22vw, 4.5rem);
+  --space-3xl: clamp(4rem, 3rem + 4.44vw, 7rem);
+
+  /* Tipografia fluida (Utopia) */
+  --step--1: clamp(0.8rem, 0.78rem + 0.09vw, 0.86rem);
+  --step-0: clamp(0.94rem, 0.9rem + 0.19vw, 1.06rem);
+  --step-1: clamp(1.06rem, 1rem + 0.31vw, 1.25rem);
+  --step-2: clamp(1.25rem, 1.1rem + 0.65vw, 1.69rem);
+  --step-3: clamp(1.6rem, 1.3rem + 1.3vw, 2.5rem);
+  --step-5: clamp(2.6rem, 1.8rem + 3.6vw, 4.75rem);
+
+  /* Raio */
+  --radius-s: 8px;
+  --radius-m: 12px;
+  --radius-l: 24px;
+  --radius-full: 999px;
+
+  /* Movimento */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 150ms;
+  --dur: 200ms;
+
+  /* Layout */
+  --container: min(90%, 1500px);
+  --header-h: 70px;
+  --focus-ring: 0 0 0 2px var(--bg), 0 0 0 4px var(--brand);
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  /* rolagem suave fica por conta do Lenis (lib/smoothScroll.js) */
+  scroll-padding-top: var(--header-h);
+  scrollbar-color: var(--border-strong) var(--bg);
+  scrollbar-width: thin;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: "Source Code Pro", ui-monospace, monospace;
+  font-size: var(--step-0);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Botões e campos herdam a fonte do site (antes caíam na fonte do sistema) */
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+::selection {
+  background: var(--brand);
+  color: var(--text);
+}
+
+/* Foco visível só para teclado; box-shadow respeita o border-radius */
+:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: var(--radius-s);
+}
+
+/* ---------- Fundo 3D fixo (ParticleBackground) ---------- */
+.particle-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.particle-bg canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+main,
+.footer {
+  position: relative;
+  z-index: 1;
+}
+
+/* ---------- Cursor personalizado (Cursor.jsx) ---------- */
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  width: 36px;
+  height: 36px;
+  margin: -18px 0 0 -18px;
+  border: 1px solid var(--brand);
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  transition:
+    width var(--dur) var(--ease-out),
+    height var(--dur) var(--ease-out),
+    margin var(--dur) var(--ease-out),
+    background var(--dur) var(--ease-out),
+    border-color var(--dur) var(--ease-out),
+    opacity var(--dur) var(--ease-out);
+}
+
+.cursor-ring.is-visible {
+  opacity: 1;
+}
+
+.cursor-ring.is-hover {
+  width: 56px;
+  height: 56px;
+  margin: -28px 0 0 -28px;
+  background: rgba(40, 100, 255, 0.12);
+  border-color: var(--brand-hover);
+}
+
+.cursor-ring.is-down {
+  scale: 0.85;
+}
+
+/* ---------- Botão voltar ao topo (BackToTop.jsx) ---------- */
+.back-to-top {
+  position: fixed;
+  right: clamp(16px, 3vw, 32px);
+  bottom: clamp(16px, 3vw, 32px);
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(10, 17, 31, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--text);
+  font-size: 15px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px);
+  transition:
+    opacity var(--dur) var(--ease-out),
+    transform var(--dur) var(--ease-out),
+    visibility var(--dur),
+    background var(--dur) var(--ease-out);
+}
+
+.back-to-top.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+.back-to-top:hover {
+  background: var(--brand);
+}
+
+.back-to-top:hover .back-to-top-ring {
+  opacity: 0;
+}
+
+.back-to-top:focus-visible {
+  border-radius: 50%;
+}
+
+/* Só o anel gira (para o progresso começar no topo); a seta fica como está */
+.back-to-top-ring {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+  transition: opacity var(--dur) var(--ease-out);
+}
+
+.back-to-top circle {
+  fill: none;
+  stroke-width: 2;
+}
+
+.back-to-top-track {
+  stroke: var(--border);
+}
+
+.back-to-top-progress {
+  stroke: var(--brand);
+  stroke-linecap: round;
+}
+
+/* ---------- Padrões compartilhados de seção ---------- */
+.section {
+  padding: var(--space-3xl) 0;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.container {
+  width: var(--container);
+  margin: 0 auto;
+}
+
+.section-label {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-xs);
+  color: var(--brand);
+  font-size: var(--step--1);
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+/* Numeração "01 /" no estilo de índice de código */
+.section-label[data-index]::before {
+  content: attr(data-index) " /";
+  color: var(--text-muted);
+  font-weight: 500;
+  letter-spacing: 0.1em;
+}
+
+.section-title {
+  margin-top: var(--space-s);
+  font-size: var(--step-3);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  text-wrap: balance;
+}
+
+.section-title span {
+  color: var(--brand);
+}
+
+.section-description {
+  max-width: 60ch;
+  margin-top: var(--space-m);
+  color: var(--text-muted);
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+
+@media (max-width: 768px) {
+  .section-label {
+    justify-content: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

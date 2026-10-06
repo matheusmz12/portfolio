@@ -1,0 +1,209 @@
+.hero {
+    position: relative;
+    overflow: hidden;
+}
+
+
+/* Indicador de rolagem */
+.scroll-hint {
+    position: absolute;
+    left: 50%;
+    bottom: var(--space-l);
+    translate: -50% 0;
+    display: grid;
+    place-items: start center;
+    width: 22px;
+    height: 36px;
+    padding-top: 6px;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-full);
+}
+
+.scroll-hint span {
+    width: 2px;
+    height: 8px;
+    border-radius: 2px;
+    background: var(--brand);
+    animation: scrollHint 1.8s var(--ease-out) infinite;
+}
+
+@keyframes scrollHint {
+    0% { opacity: 0; transform: translateY(0); }
+    30% { opacity: 1; }
+    100% { opacity: 0; transform: translateY(12px); }
+}
+
+.hero-container {
+    position: relative;
+    width: var(--container);
+    min-height: calc(100svh - var(--header-h));
+    max-height: 820px;
+    margin: 0 auto;
+    padding: var(--space-2xl) 0;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: var(--space-xl);
+    align-items: center;
+}
+
+.hero-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.hero-title {
+    margin-top: var(--space-s);
+    font-size: var(--step-5);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    color: var(--text);
+}
+
+.hero-title span {
+    color: var(--brand);
+    display: block;
+}
+
+.hero-subtitle {
+    margin-top: var(--space-m);
+    font-size: var(--step-2);
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--text-soft);
+}
+
+.hero-description {
+    max-width: 44ch;
+    margin-top: var(--space-s);
+    color: var(--text-muted);
+    font-size: var(--step-1);
+    line-height: 1.55;
+    text-wrap: pretty;
+}
+
+.hero-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-s);
+    margin-top: var(--space-xl);
+}
+
+/* ---------- Botões (reutilizáveis) ---------- */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0 var(--space-m);
+    border-radius: var(--radius-s);
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--text);
+    cursor: pointer;
+    transition:
+        background var(--dur) var(--ease-out),
+        border-color var(--dur) var(--ease-out),
+        transform var(--dur-fast) var(--ease-out);
+}
+
+.btn:active {
+    transform: scale(0.97);
+}
+
+.btn-primary {
+    background: var(--brand);
+    border: 1px solid var(--brand);
+}
+
+.btn-primary:hover {
+    background: var(--brand-hover);
+    border-color: var(--brand-hover);
+}
+
+.btn-ghost {
+    background: transparent;
+    border: 1px solid var(--border-strong);
+}
+
+.btn-ghost:hover {
+    background: var(--surface-2);
+    border-color: var(--brand);
+}
+
+.hero-socials {
+    display: flex;
+    gap: var(--space-2xs);
+    margin-top: var(--space-l);
+    margin-left: -10px;
+}
+
+.hero-socials a {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    color: var(--text-muted);
+    font-size: 22px;
+    transition: color var(--dur) var(--ease-out);
+}
+
+.hero-socials a:hover {
+    color: var(--text);
+}
+
+
+@media (max-width: 768px) {
+    .hero-container {
+        display: flex;
+        flex-direction: column-reverse;
+        justify-content: center;
+        max-height: none;
+        text-align: center;
+    }
+
+
+    .hero-content {
+        align-items: center;
+    }
+
+    .hero-buttons {
+        justify-content: center;
+    }
+
+    .hero-socials {
+        margin-left: 0;
+    }
+}
+
+/* Espaço reservado para a esfera (desenhada pelo canvas fixo) */
+.hero-visual {
+    width: 100%;
+    max-width: 560px;
+    aspect-ratio: 1;
+    justify-self: center;
+}
+
+@media (max-width: 768px) {
+    .hero-visual {
+        width: min(320px, 80vw);
+    }
+}
+
+/* Texto acima do canvas; a entrada é animada pelo GSAP (Hero.jsx) */
+.hero-content {
+    position: relative;
+    z-index: 1;
+}
+
+.hero-title {
+    /* espaço para a máscara das letras não cortar a base */
+    padding-bottom: 0.05em;
+}
+
+@media (max-width: 768px) {
+    .scroll-hint {
+        display: none;
+    }
+}

@@ -1,0 +1,129 @@
+.tech-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-xl);
+    align-items: center;
+}
+
+/* Espaço reservado para o "</>" de partículas (canvas fixo) */
+.tech-visual {
+    height: clamp(140px, 18vw, 240px);
+}
+
+/* Grade estilo "ficha técnica": células coladas com linhas de 1px,
+   em vez de cards soltos que flutuam no hover */
+.technologies-list {
+    list-style: none;
+    margin-top: var(--space-xl);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-m);
+    overflow: hidden;
+}
+
+.tech-card {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var(--space-m);
+    padding: var(--space-l) var(--space-l);
+    background: var(--bg);
+    transition: background var(--dur) var(--ease-out);
+}
+
+.tech-card:hover {
+    background: var(--surface-1);
+}
+
+/* Luz que segue o cursor; a grade inteira compartilha as coordenadas (--x/--y) */
+@media (hover: hover) {
+    .technologies-list {
+        position: relative;
+    }
+
+    .technologies-list::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(320px circle at var(--x, -999px) var(--y, -999px), rgba(40, 100, 255, 0.14), transparent 70%);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity var(--dur) var(--ease-out);
+    }
+
+    .technologies-list:hover::after {
+        opacity: 1;
+    }
+}
+
+.tech-index {
+    position: absolute;
+    top: var(--space-xs);
+    right: var(--space-s);
+    font-size: 11px;
+    color: var(--text-muted);
+    opacity: 0.6;
+}
+
+.tech-icon {
+    flex-shrink: 0;
+    font-size: 32px;
+    color: var(--text-muted);
+    transition: color var(--dur) var(--ease-out);
+}
+
+.tech-card:hover .tech-icon {
+    color: var(--brand);
+}
+
+.tech-card h3 {
+    font-size: var(--step-0);
+    font-weight: 600;
+    color: var(--text);
+}
+
+.tech-card p {
+    margin-top: 2px;
+    font-size: var(--step--1);
+    color: var(--text-muted);
+}
+
+@media (max-width: 768px) {
+    .technologies-section .container {
+        text-align: center;
+    }
+
+    .tech-header {
+        grid-template-columns: 1fr;
+    }
+
+    .tech-visual {
+        height: 120px;
+    }
+
+    .technologies-section .section-description {
+        margin-inline: auto;
+    }
+
+    .technologies-list {
+        grid-template-columns: repeat(2, 1fr);
+        text-align: left;
+    }
+
+    .tech-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-s);
+        padding: var(--space-m);
+    }
+}
+
+/* Em telas de toque não existe hover: ícone já fica na cor da marca */
+@media (hover: none) {
+    .tech-icon {
+        color: var(--brand);
+    }
+}

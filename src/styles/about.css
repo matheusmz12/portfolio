@@ -1,0 +1,138 @@
+.about-container {
+    display: grid;
+    grid-template-columns: minmax(280px, 0.8fr) 1.2fr;
+    gap: var(--space-2xl);
+    align-items: center;
+}
+
+/* ---------- Foto em moldura ---------- */
+.about-photo {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    max-width: 440px;
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-l);
+    overflow: hidden;
+    clip-path: inset(0% 0% 0% 0% round 24px);
+    background:
+        radial-gradient(ellipse 80% 55% at 50% 100%, rgba(40, 100, 255, 0.45), transparent 70%),
+        linear-gradient(to right, rgba(141, 150, 165, 0.07) 1px, transparent 1px) 0 0 / 32px 32px,
+        linear-gradient(to bottom, rgba(141, 150, 165, 0.07) 1px, transparent 1px) 0 0 / 32px 32px,
+        var(--surface-1);
+}
+
+.about-photo img {
+    position: absolute;
+    left: 50%;
+    bottom: -4%;
+    width: 112%;
+    max-width: none;
+    height: auto;
+    translate: -50% 0;
+}
+
+/* Barra superior estilo "janela de arquivo" */
+.about-photo figcaption {
+    position: absolute;
+    inset: 0 0 auto;
+    z-index: 1;
+    display: flex;
+    justify-content: space-between;
+    padding: var(--space-s) var(--space-m);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    background: linear-gradient(to bottom, rgba(5, 11, 25, 0.85), transparent);
+}
+
+.about-photo figcaption span:first-child::before {
+    content: "●";
+    margin-right: var(--space-xs);
+    color: var(--brand);
+}
+
+/* ---------- Itens em linha do tempo horizontal ---------- */
+.about-info {
+    --line: 1; /* animado pelo GSAP: a linha "desenha" ao entrar na tela */
+    position: relative;
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-m);
+    margin-top: var(--space-xl);
+    padding-top: var(--space-m);
+}
+
+.about-info::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--border);
+    transform: scaleX(var(--line));
+    transform-origin: left;
+}
+
+.about-item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    color: var(--brand);
+}
+
+/* Marcador azul sobre a linha */
+.about-item::before {
+    content: "";
+    position: absolute;
+    top: calc(var(--space-m) * -1 - 0.5px);
+    left: 0;
+    width: 40%;
+    height: 2px;
+    background: var(--brand);
+    transform-origin: left;
+    transition: transform var(--dur) var(--ease-out);
+}
+
+.about-item:hover::before {
+    transform: scaleX(2.5);
+}
+
+.about-item h3 {
+    font-size: var(--step-0);
+    color: var(--text);
+}
+
+.about-item p {
+    margin-top: var(--space-2xs);
+    color: var(--text-muted);
+    font-size: var(--step--1);
+}
+
+@media (max-width: 900px) {
+    .about-container {
+        grid-template-columns: 1fr;
+    }
+
+    .about-photo {
+        max-width: 340px;
+        justify-self: center;
+    }
+
+    .about-content {
+        text-align: center;
+    }
+
+    .about-content .section-description {
+        margin-inline: auto;
+    }
+}
+
+@media (max-width: 560px) {
+    .about-info {
+        grid-template-columns: 1fr;
+    }
+}
